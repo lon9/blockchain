@@ -68,10 +68,7 @@ func (b *Blockchain) LastBlock() *Block {
 
 func (b *Blockchain) ProofOfWork(lastProof int) int {
 	proof := 0
-	for {
-		if b.validProof(lastProof, proof) {
-			break
-		}
+	for !b.validProof(lastProof, proof) {
 		proof++
 	}
 	return proof
@@ -96,10 +93,7 @@ func (b *Blockchain) validChain(chain []Block) (bool, error) {
 	lastBlock := chain[len(chain)-1]
 	currentIndex := 1
 
-	for {
-		if currentIndex < len(chain) {
-			break
-		}
+	for currentIndex < len(chain) {
 		block := chain[currentIndex]
 		fmt.Print(lastBlock)
 		fmt.Print(block)
